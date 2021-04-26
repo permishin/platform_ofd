@@ -1,0 +1,26 @@
+<div th:fragment="login">
+  <div class="container">
+    <div class="col px-md-5">
+      <div class="p-3 border bg-light">
+        <div th:if="${param.error}">
+          Неверный логин или пароль.
+        </div>
+        <div th:if="${param.logout}">
+          Авторизация завершена успешно.
+        </div>
+        <div th:if="${errorMessage}">
+          <div th:text="${errorMessage}"/>
+        </div>
+        <div th:text="${param.authFailed}"/>
+        <div>Авторизация</div>
+        <form th:action="@{/login}" method="post">
+          <div><label> Логин: <input type="text" name="username"/> </label></div>
+          <div><label> Пароль: <input type="password" name="password"/> </label></div>
+          <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+          <div><input type="submit" value="Войти"/></div>
+        </form>
+        <a href="/registration">Регистрация</a>
+      </div>
+    </div>
+  </div>
+</div>

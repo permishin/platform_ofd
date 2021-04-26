@@ -1,0 +1,79 @@
+<div th:fragment="add_balance">
+  <div class="container">
+    <div class="col px-md-5">
+      <div class="p-3 border bg-light">
+        <p th:text="'Добавить баланс'"/>
+        <form  method="post" action="/">
+          <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+          <input type="number" min="0" max="9999999" step="1" name="balance" placeholder="Введите баланс"/>
+          <select class="form-select form-select-lg mb-3" name="type" aria-label="Default select example">
+            <option selected>Free</option>
+            <option value="Fixed">Fixed</option>
+          </select>
+          <button type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div th:fragment="show_balance">
+  <div class="container">
+    <div class="col px-md-5">
+      <div class="p-3 border bg-light">
+        <div>Список балансов пользователя</div>
+        <table class="table table-borderless">
+          <thead>
+          <tr>
+            <th>Баланс</th>
+            <th>Тип</th>
+            <th>Дата</th>
+            <th>Редактировать</th>
+          </tr>
+          </thead>
+          <tbody>
+          <span th:each="i : ${list}"
+                th:object="${i}"
+                th:if="${i.getOwner().getUsername()} == ${user.getUsername()}">
+                    <tr>
+                        <td><b th:text="${i.getBalance()}"/></td>
+                        <td><span th:text="${i.getType()}"/></td>
+                        <td><span th:text="${i.getDate()}"/></td>
+                        <td><a th:href="${i.getId() + '/edit'}">Редактировать</a></td>
+                    </tr>
+                </span>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div th:fragment="edit_balance">
+  <div class="container">
+    <div class="col px-md-5">
+      <div class="p-3 border bg-light">
+        <div>Редактировать баланс</div>
+        <table class="table table-borderless">
+          <thead>
+          <tr>
+            <th>Баланс</th>
+            <th>Тип</th>
+            <th>Дата</th>
+            <th>Сохранить</th>
+          </tr>
+          </thead>
+          <tbody>
+          <form method="post" th:action="'/' + ${balance.getId} + '/edit'">
+            <tr>
+              <td><input type="number" min="0" max="9999999" step="1" th:value="${balance.getBalance()}" name="balance"/></td>
+              <td><span th:text="${balance.getType()}"/></td>
+              <td><span th:text="${balance.getDate()}"/></td>
+              <td><button type="submit">Сохранить</button></td>
+            </tr>
+            </span>
+          </form>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
